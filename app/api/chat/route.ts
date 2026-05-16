@@ -12,6 +12,7 @@
  */
 
 import { generateText } from "ai"
+import { openai } from "@ai-sdk/openai"
 import { buildGroundingContext, runEngine, suggestNavLinks, type ChatLink } from "@/lib/chatbot/engine"
 import type { Lang } from "@/lib/chatbot/data"
 
@@ -90,7 +91,7 @@ export async function POST(req: Request): Promise<Response> {
 
   try {
     const { text } = await generateText({
-      model: "openai/gpt-5-mini",
+      model: openai("gpt-4o-mini"),
       system: SYSTEM_PROMPT,
       prompt: userPrompt,
     })
