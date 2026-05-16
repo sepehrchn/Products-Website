@@ -2,17 +2,11 @@
 
 import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
-
-const countries = [
-  "Germany",
-  "UAE",
-  "Spain",
-  "Canada",
-  "Japan",
-  "Australia",
-]
+import { useLanguage } from "@/lib/i18n"
 
 export function ClientLogos() {
+  const { t } = useLanguage()
+  const countries = t('logos.countries') as string[]
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
@@ -29,7 +23,7 @@ export function ClientLogos() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="text-center text-[10px] sm:text-[11px] tracking-[0.2em] uppercase text-muted-text mb-8 sm:mb-10 font-medium"
         >
-          Currently supplying markets across
+          {t('logos.heading')}
         </motion.p>
 
         <motion.div

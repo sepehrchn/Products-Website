@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import { Cormorant_Garamond, Instrument_Sans } from 'next/font/google'
+import { Vazirmatn } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
+import { LanguageProvider } from '@/lib/i18n'
 
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
@@ -14,6 +16,12 @@ const instrument = Instrument_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-instrument',
+  display: 'swap',
+})
+
+const vazirmatn = Vazirmatn({
+  subsets: ['arabic'],
+  variable: '--font-vazirmatn',
   display: 'swap',
 })
 
@@ -101,10 +109,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${instrument.variable} bg-background`}>
-      <body className="font-sans antialiased">
-        {children}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+    <html lang="en" suppressHydrationWarning className={`${cormorant.variable} ${instrument.variable} ${vazirmatn.variable} bg-background`}>
+      <body className="font-sans antialiased" suppressHydrationWarning>
+        <LanguageProvider>
+          {children}
+          {process.env.NODE_ENV === 'production' && <Analytics />}
+        </LanguageProvider>
       </body>
     </html>
   )

@@ -1,17 +1,12 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { useInView } from "framer-motion"
+import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
-
-const stats = [
-  { value: "14", label: "Active Markets" },
-  { value: "2,400+", label: "MT Exported Annually" },
-  { value: "ISO 22000", label: "Food Safety Certified" },
-  { value: "Est. 1998", label: "Years in Operation" },
-]
+import { useLanguage } from "@/lib/i18n"
 
 export function TrustBar() {
+  const { t } = useLanguage()
+  const stats = t('trustBar.metrics') as { value: string; label: string }[]
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 

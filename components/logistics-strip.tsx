@@ -2,37 +2,14 @@
 
 import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
-
-const steps = [
-  {
-    number: 1,
-    title: "Submit Requirements",
-    description:
-      "Share your product specification, target volume, and destination port. We confirm availability and respond with indicative pricing within 24 hours.",
-  },
-  {
-    number: 2,
-    title: "Sampling & Approval",
-    description:
-      "Receive lab-tested samples with full specification sheets and certification documentation before committing to an order.",
-  },
-  {
-    number: 3,
-    title: "Export Documentation",
-    description:
-      "We prepare phytosanitary certificates, health declarations, certificate of origin, and all customs paperwork for your import market.",
-  },
-  {
-    number: 4,
-    title: "Freight & Delivery",
-    description:
-      "We arrange shipment on FOB, CIF, or DDP terms. Marine insurance and real-time cargo tracking included on every consignment.",
-  },
-]
+import { useLanguage } from "@/lib/i18n"
 
 export function LogisticsStrip() {
+  const { t } = useLanguage()
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
+
+  const steps = t('logistics.steps') as { title: string; description: string }[]
 
   return (
     <section
@@ -49,13 +26,13 @@ export function LogisticsStrip() {
           className="text-center"
         >
           <p className="text-[11px] tracking-[0.2em] uppercase text-saffron font-medium mb-5">
-            Export Process
+            {t('logistics.tag')}
           </p>
           <h2
             id="logistics-heading"
             className="font-serif text-4xl md:text-5xl font-medium text-parchment leading-[1.1] tracking-tight"
           >
-            From your inquiry to your port.
+            {t('logistics.heading')}
           </h2>
         </motion.div>
 

@@ -2,10 +2,12 @@
 
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-
-const words = ["Certified", "Iranian", "exports,", "direct", "from", "the", "source."]
+import { useLanguage } from "@/lib/i18n"
 
 export function Hero() {
+  const { t } = useLanguage()
+  const words = t('hero.words') as string[]
+  
   return (
     <section
       className="relative min-h-screen flex items-center justify-center bg-ink pt-20 overflow-hidden"
@@ -56,9 +58,7 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
           className="mt-7 sm:mt-10 text-base sm:text-xl md:text-2xl text-parchment/80 max-w-xl mx-auto leading-[1.8] font-light tracking-wide"
         >
-          Supplying international importers with Iran’s premium agricultural
-          commodities — saffron, pistachios, dried fruits, and specialty goods.
-          Certified, documented, and export-ready.
+          {t('hero.subtitle')}
         </motion.p>
 
         {/* CTA Buttons */}
@@ -73,7 +73,7 @@ export function Hero() {
               size="lg"
               className="bg-saffron text-ink hover:bg-saffron/90 font-medium px-10 h-12 text-[15px] w-full shadow-lg shadow-saffron/20 tracking-wide"
             >
-              Request a Quote
+              {t('hero.quoteBtn')}
             </Button>
           </motion.div>
           <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }} className="w-full sm:w-auto">
@@ -82,7 +82,7 @@ export function Hero() {
               variant="outline"
               className="border-parchment/30 text-parchment bg-transparent hover:bg-parchment/10 font-medium px-10 h-12 text-[15px] w-full tracking-wide"
             >
-              View Export Catalogue
+              {t('hero.catalogueBtn')}
             </Button>
           </motion.div>
         </motion.div>
@@ -102,7 +102,7 @@ export function Hero() {
             style={{ originX: 0.5 }}
           />
           <p className="text-[10px] sm:text-[11px] tracking-[0.18em] sm:tracking-[0.28em] uppercase text-parchment/80 font-medium px-4 text-center leading-[2]">
-            ISO 22000 &nbsp;·&nbsp; GlobalG.A.P. Compliant &nbsp;·&nbsp; 14 Active Markets &nbsp;·&nbsp; Est. 1998
+            {t('hero.trust')}
           </p>
         </motion.div>
       </div>

@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
+import { useLanguage } from "@/lib/i18n"
 
 const locations = [
   { name: "Tehran", cx: 145, cy: 85 },
@@ -12,6 +13,7 @@ const locations = [
 const certifications = ["ISO 22000", "GlobalG.A.P.", "EU Phytosanitary"]
 
 export function OriginTeaser() {
+  const { t } = useLanguage()
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
@@ -30,29 +32,18 @@ export function OriginTeaser() {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <p className="text-[11px] tracking-[0.2em] uppercase text-saffron font-medium mb-5">
-              Origin &amp; Traceability
+            <p className="text-[11px] tracking-[0.2em] uppercase text-saffron font-medium mb-4">
+              {t('origin.tag')}
             </p>
             <h2
               id="origin-heading"
-              className="font-serif text-4xl md:text-5xl font-medium text-ink leading-[1.1] tracking-tight"
+              className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-ink mb-6"
             >
-              Traceable from farm to freight.
+              {t('origin.heading')}
             </h2>
             <div className="mt-10 space-y-5 text-[15px] text-muted-text leading-[1.8]">
-              <p>
-                We source directly from farming cooperatives in Khorasan, Kerman,
-                and Fars — not from intermediaries. Each cooperative operates
-                under contract with defined quality standards, harvest schedules,
-                and traceability requirements agreed prior to the season.
-              </p>
-              <p>
-                Every consignment passes through our quality control facility in
-                Tehran: laboratory analysis, grading, moisture testing, and
-                document verification. We provide full traceability records
-                — from farm ID to freight forwarding reference — for every
-                purchase order.
-              </p>
+              <p>{t('origin.p1')}</p>
+              <p>{t('origin.p2')}</p>
             </div>
           </motion.div>
 

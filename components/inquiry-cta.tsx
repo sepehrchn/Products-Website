@@ -3,8 +3,10 @@
 import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
 import { Button } from "@/components/ui/button"
+import { useLanguage } from "@/lib/i18n"
 
 export function InquiryCTA() {
+  const { t } = useLanguage()
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
@@ -23,7 +25,7 @@ export function InquiryCTA() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-ink leading-[1.1] tracking-tight"
         >
-          Ready to source from Iran’s origin?
+          {t('inquiry.heading')}
         </motion.h2>
 
         <motion.p
@@ -32,9 +34,7 @@ export function InquiryCTA() {
           transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           className="mt-8 text-sm sm:text-[15px] text-muted-text leading-[1.8] max-w-md mx-auto"
         >
-          Share your product requirement, target volume, and destination port.
-          Our export team will respond within 48 hours with pricing, sample
-          availability, and logistics options.
+          {t('inquiry.subtitle')}
         </motion.p>
 
         <motion.div
@@ -48,7 +48,7 @@ export function InquiryCTA() {
               size="lg"
               className="w-full sm:w-auto bg-saffron text-ink hover:bg-saffron/90 font-medium px-12 h-14 text-base shadow-lg shadow-saffron/20 tracking-wide"
             >
-              Contact Sales Team
+              {t('inquiry.btn')}
             </Button>
           </motion.div>
         </motion.div>

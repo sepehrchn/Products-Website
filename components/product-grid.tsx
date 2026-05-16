@@ -2,41 +2,19 @@
 
 import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
-import { Button } from "@/components/ui/button"
 import Image from "next/image"
+import { useLanguage } from "@/lib/i18n"
 
-const products = [
-  {
-    name: "Saffron",
-    description:
-      "Grade 1 and Sargol cuts, hand-harvested from Khorasan's high-altitude fields. Available in 1g–500g retail packs and kilogram-level bulk export quantities. Compliant with ISO 3632.",
-    origin: "Khorasan",
-    image: "/images/saffron.jpg"
-  },
-  {
-    name: "Premium Iranian Spices",
-    description:
-      "Carefully sourced Iranian spices known for rich aroma, vibrant color, and export-grade quality. Suitable for wholesale distribution, food manufacturing, and international culinary markets.",
-    origin: "Kerman",
-    image: "/images/spice.jpg"
-  },
-  {
-    name: "Dried Fruits",
-    description:
-      "Mazafati and Medjool dates, sun-dried figs, and dried apricots from Fars province. Available in consumer retail cartons and bulk palletised volumes. Brix and moisture specs on request.",
-    origin: "Fars",
-    image: "/images/dried-fruits.jpg"
-  },
-  {
-    name: "Traditional Herbal Drinks",
-    description:
-      "Authentic Iranian herbal beverages crafted from natural botanicals and regional ingredients. Prepared for international markets with premium packaging and consistent quality standards.",
-    origin: "Isfahan",
-    image: "/images/herbs.jpg"
-  },
+const images = [
+  "/images/saffron.jpg",
+  "/images/spice.jpg",
+  "/images/dried-fruits.jpg",
+  "/images/herbs.jpg"
 ]
 
 export function ProductGrid() {
+  const { t } = useLanguage()
+  const products = t('products.items') as { name: string; description: string; origin: string }[]
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
@@ -52,20 +30,19 @@ export function ProductGrid() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center"
+          className="text-center max-w-2xl mx-auto mb-16 sm:mb-20"
         >
           <p className="text-[11px] tracking-[0.2em] uppercase text-saffron font-medium mb-5">
-            Export Catalogue
+            {t('products.tag')}
           </p>
           <h2
             id="products-heading"
-            className="font-serif text-4xl md:text-5xl font-medium text-ink leading-[1.1] tracking-tight"
+            className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-ink"
           >
-            Our core export lines
+            {t('products.heading')}
           </h2>
           <p className="mt-5 text-muted-text max-w-lg mx-auto leading-relaxed">
-            All product lines are available in bulk and retail configurations,
-            with full documentation for customs clearance in your market.
+            {t('products.subheading')}
           </p>
         </motion.div>
 
@@ -82,7 +59,7 @@ export function ProductGrid() {
               {/* Product Image */}
               <div className="relative aspect-video bg-muted overflow-hidden">
                 <Image
-                  src={product.image}
+                  src={images[index]}
                   alt={product.name}
                   fill
                   quality={90}
@@ -100,10 +77,10 @@ export function ProductGrid() {
                 </p>
                 <div className="mt-6 flex items-center justify-between">
                   <span className="text-[10px] tracking-[0.18em] uppercase text-saffron font-semibold">
-                    {product.origin}, Iran
+                    {t('products.originPrefix')}{product.origin}{t('products.originSuffix')}
                   </span>
                   <button className="text-[13px] font-medium text-ink/60 hover:text-saffron transition-colors group-hover:text-saffron flex items-center">
-                    Request Samples <span className="ml-1 opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">&rarr;</span>
+                    {t('products.requestSamples')} <span className="ml-1 opacity-0 rtl:translate-x-2 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">&rarr;</span>
                   </button>
                 </div>
               </div>

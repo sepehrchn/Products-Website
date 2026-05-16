@@ -13,7 +13,14 @@ const footerLinks = {
   ],
 }
 
+import { useLanguage } from "@/lib/i18n"
+
 export function Footer() {
+  const { lang, setLang, t } = useLanguage()
+  const col1Links = t('footer.col1Links') as string[]
+  const col2Links = t('footer.col2Links') as string[]
+  const col3Links = t('footer.col3Links') as string[]
+
   return (
     <footer id="about" className="bg-ink text-parchment" role="contentinfo">
       <div className="mx-auto max-w-6xl px-5 sm:px-8 py-12 sm:py-16 lg:py-20">
@@ -22,15 +29,13 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-2.5">
               <span className="font-serif text-lg font-semibold tracking-tight text-parchment">
-                Ariana
+                {t('nav.brandFirst')}
               </span>
               <span className="w-px h-4 bg-saffron/40" aria-hidden="true" />
-              <span className="font-serif text-lg text-saffron tracking-tight">Global Trade</span>
+              <span className="font-serif text-lg text-saffron tracking-tight">{t('nav.brandSecond')}</span>
             </div>
             <p className="mt-5 text-[13px] text-parchment/60 leading-[1.8]">
-              Established in 1998, Ariana Global Trade supplies certified Iranian
-              agricultural commodities to importers, distributors, and food
-              manufacturers across 14 markets worldwide.
+              {t('footer.description')}
             </p>
             <address className="mt-4 text-[13px] text-parchment/50 not-italic leading-[1.8]">
               No. 45, Vali-e-Asr Avenue
@@ -42,16 +47,16 @@ export function Footer() {
           {/* Products */}
           <div>
             <h3 className="text-[11px] tracking-[0.16em] uppercase font-semibold text-parchment/50 mb-5">
-              Products
+              {t('footer.col1Title')}
             </h3>
             <ul className="space-y-3.5">
-              {footerLinks.products.map((link) => (
-                <li key={link.label}>
+              {col1Links.map((label) => (
+                <li key={label}>
                   <a
-                    href={link.href}
+                    href="#"
                     className="text-[13px] text-parchment/60 hover:text-saffron transition-colors"
                   >
-                    {link.label}
+                    {label}
                   </a>
                 </li>
               ))}
@@ -61,16 +66,16 @@ export function Footer() {
           {/* Quick Links */}
           <div>
             <h3 className="text-[11px] tracking-[0.16em] uppercase font-semibold text-parchment/50 mb-5">
-              Quick Links
+              {t('footer.col2Title')}
             </h3>
             <ul className="space-y-3.5">
-              {footerLinks.quickLinks.map((link) => (
-                <li key={link.label}>
+              {col2Links.map((label) => (
+                <li key={label}>
                   <a
-                    href={link.href}
+                    href="#"
                     className="text-[13px] text-parchment/60 hover:text-saffron transition-colors"
                   >
-                    {link.label}
+                    {label}
                   </a>
                 </li>
               ))}
@@ -80,7 +85,7 @@ export function Footer() {
           {/* Contact */}
           <div>
             <h3 className="text-[11px] tracking-[0.16em] uppercase font-semibold text-parchment/50 mb-5">
-              Contact
+              {t('footer.col3Title')}
             </h3>
             <ul className="space-y-3.5 text-[13px] text-parchment/60">
               <li>
@@ -125,14 +130,20 @@ export function Footer() {
       <div className="border-t border-parchment/10">
         <div className="mx-auto max-w-6xl px-6 py-6 flex flex-col sm:flex-row items-center sm:items-start justify-between gap-4 sm:gap-0">
           <p className="text-xs text-parchment/50 text-center sm:text-left">
-            &copy; {new Date().getFullYear()} Ariana Global Trade. All rights reserved.
+            &copy; {new Date().getFullYear()} {t('footer.copyright')}
           </p>
           <div className="flex items-center gap-2 text-xs">
-            <button className="text-parchment/70 hover:text-saffron transition-colors">
-              FA
+            <button 
+              className={`transition-colors ${lang === 'fa' ? 'text-saffron' : 'text-parchment/70 hover:text-saffron'}`}
+              onClick={() => setLang('fa')}
+            >
+              فا
             </button>
             <span className="text-parchment/30">|</span>
-            <button className="text-parchment hover:text-saffron transition-colors">
+            <button 
+              className={`transition-colors ${lang === 'en' ? 'text-saffron' : 'text-parchment/70 hover:text-saffron'}`}
+              onClick={() => setLang('en')}
+            >
               EN
             </button>
           </div>

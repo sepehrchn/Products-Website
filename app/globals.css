@@ -95,3 +95,21 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* Persian RTL Typography */
+html[dir="rtl"] body {
+  font-family: var(--font-vazirmatn), sans-serif !important;
+}
+
+html[dir="rtl"] .font-serif,
+html[dir="rtl"] .font-sans {
+  font-family: var(--font-vazirmatn), sans-serif !important;
+}
+
+html[dir="rtl"] .tracking-widest,
+html[dir="rtl"] .tracking-wide,
+html[dir="rtl"] .tracking-tight,
+html[dir="rtl"] .tracking-tighter,
+html[dir="rtl"] [class*="tracking-"] {
+  letter-spacing: normal !important;
+}
