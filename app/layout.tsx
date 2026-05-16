@@ -26,6 +26,7 @@ const vazirmatn = Vazirmatn({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://arianaglobaltrade.com'),
   title: 'Ariana Global Trade | Premium Iranian Agricultural Exports',
   description:
     'ISO 22000-certified Iranian import and export company supplying premium saffron, dates, spices, herbal drinks, and dried fruits to international wholesale markets. Established 1998.',
