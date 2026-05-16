@@ -4,11 +4,6 @@ import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { useLanguage } from "@/lib/i18n"
-  { label: "Origin", href: "#origin" },
-  { label: "Logistics", href: "#logistics" },
-  { label: "Request a Quote", href: "#inquire" },
-  { label: "About", href: "#about" },
-]
 
 export function Navbar() {
   const { lang, setLang, t } = useLanguage()
@@ -74,23 +69,6 @@ export function Navbar() {
                 <motion.span className="absolute -bottom-0.5 left-0 h-px bg-saffron" initial={{ scaleX: 0 }} whileHover={{ scaleX: 1 }} transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }} style={{ originX: 0, width: "100%" }} />
               </a>
             </li>
-        </ul>
-            <li key={link.href}>
-              <a
-                href={link.href}
-                className="relative text-[13px] font-medium tracking-[0.1em] uppercase text-ink/80 hover:text-saffron transition-colors duration-200 group"
-              >
-                {link.label}
-                <motion.span
-                  className="absolute -bottom-0.5 left-0 h-px bg-saffron"
-                  initial={{ scaleX: 0 }}
-                  whileHover={{ scaleX: 1 }}
-                  transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                  style={{ originX: 0, width: "100%" }}
-                />
-              </a>
-            </li>
-          ))}
         </ul>
 
         {/* Language Toggle */}

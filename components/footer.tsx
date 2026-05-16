@@ -1,3 +1,5 @@
+"use client"
+
 const footerLinks = {
   products: [
     { label: "Saffron", href: "#" },
