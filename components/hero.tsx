@@ -8,10 +8,23 @@ const words = ["Certified", "Iranian", "exports,", "direct", "from", "the", "sou
 export function Hero() {
   return (
     <section
-      className="relative min-h-screen flex items-center justify-center bg-ink pt-20"
+      className="relative min-h-screen flex items-center justify-center bg-ink pt-20 overflow-hidden"
       aria-labelledby="hero-heading"
     >
-      <div className="mx-auto max-w-5xl px-5 sm:px-8 py-16 sm:py-24 lg:py-36 text-center">
+      {/* Cinematic Video Background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover opacity-50"
+        >
+          <source src="/videos/hero-video.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/40 to-ink/95" />
+      </div>
+      <div className="relative z-10 mx-auto max-w-5xl px-5 sm:px-8 py-16 sm:py-24 lg:py-36 text-center">
         {/* Headline with word-by-word reveal */}
         <h1
           id="hero-heading"
@@ -86,7 +99,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 1.6, ease: [0.16, 1, 0.3, 1] }}
             style={{ originX: 0.5 }}
           />
-          <p className="text-[10px] sm:text-[11px] tracking-[0.18em] sm:tracking-[0.28em] uppercase text-parchment/50 font-medium px-4 text-center leading-[2]">
+          <p className="text-[10px] sm:text-[11px] tracking-[0.18em] sm:tracking-[0.28em] uppercase text-parchment/80 font-medium px-4 text-center leading-[2]">
             ISO 22000 &nbsp;·&nbsp; GlobalG.A.P. Compliant &nbsp;·&nbsp; 14 Active Markets &nbsp;·&nbsp; Est. 1998
           </p>
         </motion.div>
@@ -100,8 +113,7 @@ export function Hero() {
         transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* Decorative gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-ink/0 via-ink/0 to-ink/50 pointer-events-none" />
+
     </section>
   )
 }

@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
 import { Button } from "@/components/ui/button"
+import Image from "next/image"
 
 const products = [
   {
@@ -10,24 +11,28 @@ const products = [
     description:
       "Grade 1 and Sargol cuts, hand-harvested from Khorasan's high-altitude fields. Available in 1g–500g retail packs and kilogram-level bulk export quantities. Compliant with ISO 3632.",
     origin: "Khorasan",
+    image: "/images/saffron.jpg"
   },
   {
-    name: "Pistachios",
+    name: "Premium Iranian Spices",
     description:
-      "Naturally open-shell Kerman pistachios — raw, roasted, and salted. Graded by size (20–22, 22–24, 24–26 counts). Full EU and US import compliance documentation provided.",
+      "Carefully sourced Iranian spices known for rich aroma, vibrant color, and export-grade quality. Suitable for wholesale distribution, food manufacturing, and international culinary markets.",
     origin: "Kerman",
+    image: "/images/spice.jpg"
   },
   {
     name: "Dried Fruits",
     description:
       "Mazafati and Medjool dates, sun-dried figs, and dried apricots from Fars province. Available in consumer retail cartons and bulk palletised volumes. Brix and moisture specs on request.",
     origin: "Fars",
+    image: "/images/dried-fruits.jpg"
   },
   {
-    name: "Rose Water",
+    name: "Traditional Herbal Drinks",
     description:
-      "Steam-distilled from Damask roses in Kashan. Available in food-grade and cosmetic-grade variants with Ecocert-eligible documentation. Minimum order 500 litres.",
+      "Authentic Iranian herbal beverages crafted from natural botanicals and regional ingredients. Prepared for international markets with premium packaging and consistent quality standards.",
     origin: "Isfahan",
+    image: "/images/herbs.jpg"
   },
 ]
 
@@ -74,9 +79,15 @@ export function ProductGrid() {
               whileHover={{ y: -6, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } }}
               className="group bg-card rounded-lg overflow-hidden shadow-sm border border-border cursor-default"
             >
-              {/* Placeholder Image */}
-              <div className="aspect-video bg-muted flex items-center justify-center">
-                <span className="text-muted-foreground text-sm tracking-wide">Product Image</span>
+              {/* Product Image */}
+              <div className="relative aspect-video bg-muted overflow-hidden">
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
               </div>
 
               <div className="p-5 sm:p-8">
