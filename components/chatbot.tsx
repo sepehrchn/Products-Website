@@ -1,14 +1,22 @@
 "use client"
 
-import { useState, useEffect, useRef, useMemo } from "react"
-import { useChat } from "@ai-sdk/react"
-import { DefaultChatTransport, type UIMessage } from "ai"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { MessageCircle, X, Send, Sparkles } from "lucide-react"
 import { useLanguage } from "@/lib/i18n"
 import { cn } from "@/lib/utils"
+import { runEngine, type ChatLink } from "@/lib/chatbot/engine"
 
 const SECTIONS = ["hero", "products", "origin", "logistics", "inquire", "about"] as const
+
+type Role = "user" | "assistant"
+interface Message {
+  id: string
+  role: Role
+  text: string
+  links?: ChatLink[]
+  source?: "local" | "ai" | "fallback"
+}
 
 function useCurrentSection() {
   const [section, setSection] = useState<string>("hero")
@@ -36,15 +44,7 @@ function useCurrentSection() {
   return section
 }
 
-function getMessageText(m: UIMessage): string {
-  if (!m.parts || !Array.isArray(m.parts)) return ""
-  return m.parts
-    .filter((p): p is { type: "text"; text: string } => p.type === "text")
-    .map((p) => p.text)
-    .join("")
-}
-
-/** Render assistant text and convert [Label](#anchor) into in-page links. */
+/** Render assistant text and convert inline [Label](#anchor) tokens into in-page links. */
 function RenderedMessage({ text }: { text: string }) {
   const parts = useMemo(() => {
     const regex = /\[([^\]]+)\]\(#([a-zA-Z0-9_-]+)\)/g
@@ -79,13 +79,33 @@ function RenderedMessage({ text }: { text: string }) {
   )
 }
 
+function LinkChips({ links }: { links: ChatLink[] }) {
+  if (!links.length) return null
+  return (
+    <div className="flex flex-wrap gap-1.5 mt-2">
+      {links.map((l) => (
+        <a
+          key={l.href + l.label}
+          href={l.href}
+          className="text-[12px] px-2.5 py-1 rounded-full border border-saffron/40 bg-saffron/10 text-saffron font-medium hover:bg-saffron hover:text-white hover:border-saffron transition-colors"
+        >
+          {l.label}
+        </a>
+      ))}
+    </div>
+  )
+}
+
 export function Chatbot() {
-  const { lang, t } = useLanguage()
+  const { lang } = useLanguage()
   const [open, setOpen] = useState(false)
   const [input, setInput] = useState("")
   const [unread, setUnread] = useState(false)
+  const [messages, setMessages] = useState<Message[]>([])
+  const [isBusy, setIsBusy] = useState(false)
   const currentSection = useCurrentSection()
   const scrollRef = useRef<HTMLDivElement>(null)
+  const idRef = useRef(0)
 
   const isFa = lang === "fa"
 
@@ -94,7 +114,8 @@ export function Chatbot() {
         title: "دستیار آریانا",
         subtitle: "پاسخ سریع به سوالات شما",
         placeholder: "سوال خود را بنویسید...",
-        greeting: "سلام! من دستیار هوشمند آریانا هستم. می‌توانم درباره محصولات، مبدا، لجستیک یا درخواست پیش‌فاکتور به شما کمک کنم.",
+        greeting:
+          "سلام! من دستیار هوشمند آریانا هستم. می‌توانم درباره محصولات، مبدا، لجستیک یا درخواست پیش‌فاکتور به شما کمک کنم.",
         send: "ارسال",
         suggestions: [
           "درباره زعفران شما بگویید",
@@ -104,8 +125,8 @@ export function Chatbot() {
         ],
         openLabel: "باز کردن چت",
         closeLabel: "بستن چت",
-        thinking: "در حال نوشتن...",
-        poweredBy: "هوش مصنوعی · پاسخ ۱۲ ساعته توسط تیم فروش",
+        poweredBy: "پاسخ‌های سریع از پایگاه دانش آریانا",
+        errorText: "خطا در ارتباط. لطفاً دوباره تلاش کنید.",
       }
     : {
         title: "Ariana Assistant",
@@ -122,16 +143,9 @@ export function Chatbot() {
         ],
         openLabel: "Open chat",
         closeLabel: "Close chat",
-        thinking: "Thinking...",
-        poweredBy: "AI assistant · sales team replies within 12h",
+        poweredBy: "Instant answers from the Ariana knowledge base",
+        errorText: "Connection error. Please try again.",
       }
-
-  const { messages, sendMessage, status } = useChat({
-    transport: new DefaultChatTransport({ api: "/api/chat" }),
-    onFinish: () => {
-      if (!open) setUnread(true)
-    },
-  })
 
   useEffect(() => {
     if (open) setUnread(false)
@@ -141,21 +155,78 @@ export function Chatbot() {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight
     }
-  }, [messages, status])
+  }, [messages, isBusy])
 
-  const handleSend = (text: string) => {
-    const value = text.trim()
-    if (!value || status === "streaming" || status === "submitted") return
-    sendMessage({ text: value }, { body: { currentSection } })
-    setInput("")
-  }
+  const nextId = () => `m_${++idRef.current}`
+
+  const appendAssistant = useCallback(
+    (msg: Omit<Message, "id" | "role">) => {
+      setMessages((prev) => [...prev, { id: nextId(), role: "assistant", ...msg }])
+      if (!open) setUnread(true)
+    },
+    [open],
+  )
+
+  const handleSend = useCallback(
+    async (text: string) => {
+      const value = text.trim()
+      if (!value || isBusy) return
+
+      const userMsg: Message = { id: nextId(), role: "user", text: value }
+      setMessages((prev) => [...prev, userMsg])
+      setInput("")
+
+      // 1. Local engine on the client — instant if confident.
+      const local = runEngine({ query: value, lang, currentSection })
+      if (local.source === "local") {
+        // Small delay for natural feel
+        setIsBusy(true)
+        await new Promise((r) => setTimeout(r, 220))
+        setIsBusy(false)
+        appendAssistant({ text: local.text, links: local.links, source: "local" })
+        return
+      }
+
+      // 2. Otherwise call the API (AI fallback, also grounded server-side).
+      setIsBusy(true)
+      try {
+        const history = messages.slice(-6).map((m) => ({ role: m.role, text: m.text }))
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            message: value,
+            lang,
+            currentSection,
+            history,
+          }),
+        })
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        const data = (await res.json()) as { text: string; links: ChatLink[]; source: "ai" | "local" | "fallback" }
+        appendAssistant({ text: data.text, links: data.links || [], source: data.source })
+      } catch (err) {
+        console.error("[v0] chat request failed:", err)
+        appendAssistant({
+          text: labels.errorText,
+          links: [
+            {
+              href: "#inquire",
+              label: isFa ? "باز کردن فرم درخواست" : "Open inquiry form",
+            },
+          ],
+          source: "fallback",
+        })
+      } finally {
+        setIsBusy(false)
+      }
+    },
+    [isBusy, lang, currentSection, messages, appendAssistant, labels.errorText, isFa],
+  )
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     handleSend(input)
   }
-
-  const isBusy = status === "streaming" || status === "submitted"
 
   return (
     <>
@@ -269,8 +340,6 @@ export function Chatbot() {
               )}
 
               {messages.map((m) => {
-                const text = getMessageText(m)
-                if (!text && m.role === "assistant") return null
                 const isUser = m.role === "user"
                 return (
                   <div key={m.id} className={cn("flex", isUser ? "justify-end" : "justify-start")}>
@@ -282,7 +351,14 @@ export function Chatbot() {
                           : "bg-white border border-border text-ink rounded-2xl rounded-tl-sm",
                       )}
                     >
-                      {isUser ? <span className="whitespace-pre-wrap">{text}</span> : <RenderedMessage text={text} />}
+                      {isUser ? (
+                        <span className="whitespace-pre-wrap">{m.text}</span>
+                      ) : (
+                        <>
+                          <RenderedMessage text={m.text} />
+                          {m.links && m.links.length > 0 && <LinkChips links={m.links} />}
+                        </>
+                      )}
                     </div>
                   </div>
                 )
