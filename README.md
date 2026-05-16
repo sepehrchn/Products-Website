@@ -15,14 +15,25 @@ A premium B2B export website for Iranian agricultural commodities. This site is 
 - **Premium Saffron**: Grade 1 and Sargol cuts from Khorasan.
 - **Iranian Spices**: High-quality export-grade spices.
 - **Dried Fruits**: Dates, figs, and apricots from Fars and Kerman.
-- **Herbal Drinks**: Authentic traditional botanicals.
+- **Smart Chatbot**: Hybrid Local-first + AI assistant for instant customer inquiries.
 
 ## Technical Details
 
 - **Framework**: [Next.js](https://nextjs.org/) (App Router)
+- **AI Integration**: [Vercel AI SDK](https://sdk.vercel.ai/) with OpenAI
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 - **Animations**: [Framer Motion](https://www.framer.com/motion/)
 - **Language**: TypeScript
+
+## Deployment
+
+This site is optimized for deployment on **Vercel**.
+
+### Environment Variables
+
+To enable the AI Chatbot fallback, you must add the following environment variable in your Vercel project settings:
+
+- `OPENAI_API_KEY`: Your OpenAI API key.
 
 ## Getting Started
 

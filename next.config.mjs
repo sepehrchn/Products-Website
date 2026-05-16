@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Production optimizations enabled
+  images: {
+    qualities: [75, 90],
+  },
 }
 
 export default nextConfig
