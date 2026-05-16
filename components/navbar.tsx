@@ -20,7 +20,7 @@ export function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20)
     }
-    window.addEventListener("scroll", handleScroll)
+    window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
@@ -44,7 +44,7 @@ export function Navbar() {
         </a>
 
         {/* Desktop Nav Links */}
-        <ul className="hidden md:flex items-center gap-9" role="navigation">
+        <ul className="hidden lg:flex items-center gap-9" role="navigation">
           {navLinks.map((link) => (
             <li key={link.href}>
               <a
@@ -65,7 +65,7 @@ export function Navbar() {
         </ul>
 
         {/* Language Toggle */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-3">
           <button className="text-[13px] font-medium tracking-widest text-ink hover:text-saffron transition-colors">
             EN
           </button>
@@ -77,7 +77,7 @@ export function Navbar() {
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden p-2 -mr-1"
+          className="lg:hidden p-2 -mr-1"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
           aria-expanded={mobileMenuOpen}
@@ -104,7 +104,7 @@ export function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-parchment/95 backdrop-blur-md border-t border-border"
+            className="lg:hidden bg-parchment/95 backdrop-blur-md border-t border-border"
           >
           <ul className="px-5 py-5 space-y-1">
               {navLinks.map((link) => (

@@ -85,6 +85,7 @@ export function ProductGrid() {
                   src={product.image}
                   alt={product.name}
                   fill
+                  quality={90}
                   className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
@@ -101,8 +102,8 @@ export function ProductGrid() {
                   <span className="text-[10px] tracking-[0.18em] uppercase text-saffron font-semibold">
                     {product.origin}, Iran
                   </span>
-                  <button className="text-[13px] font-medium text-ink/60 hover:text-saffron transition-colors underline underline-offset-4 decoration-saffron/30">
-                    Request Samples
+                  <button className="text-[13px] font-medium text-ink/60 hover:text-saffron transition-colors group-hover:text-saffron flex items-center">
+                    Request Samples <span className="ml-1 opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">&rarr;</span>
                   </button>
                 </div>
               </div>

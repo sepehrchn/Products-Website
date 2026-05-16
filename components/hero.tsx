@@ -18,6 +18,8 @@ export function Hero() {
           muted
           loop
           playsInline
+          preload="auto"
+          disablePictureInPicture
           className="w-full h-full object-cover opacity-50"
         >
           <source src="/videos/hero-video.mp4" type="video/mp4" />
@@ -33,8 +35,8 @@ export function Hero() {
           {words.map((word, index) => (
             <motion.span
               key={index}
-              initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{
                 duration: 0.8,
                 delay: index * 0.1,
@@ -69,7 +71,7 @@ export function Hero() {
           <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }} className="w-full sm:w-auto">
             <Button
               size="lg"
-              className="bg-saffron text-ink hover:bg-saffron/90 font-medium px-10 h-12 text-[15px] w-full"
+              className="bg-saffron text-ink hover:bg-saffron/90 font-medium px-10 h-12 text-[15px] w-full shadow-lg shadow-saffron/20 tracking-wide"
             >
               Request a Quote
             </Button>
@@ -78,7 +80,7 @@ export function Hero() {
             <Button
               size="lg"
               variant="outline"
-              className="border-parchment/30 text-parchment bg-transparent hover:bg-parchment/10 font-medium px-10 h-12 text-[15px] w-full"
+              className="border-parchment/30 text-parchment bg-transparent hover:bg-parchment/10 font-medium px-10 h-12 text-[15px] w-full tracking-wide"
             >
               View Export Catalogue
             </Button>
@@ -109,7 +111,7 @@ export function Hero() {
       <motion.div
         className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[500px] rounded-full bg-saffron blur-[120px] pointer-events-none"
         style={{ opacity: 0.04 }}
-        animate={{ opacity: [0.03, 0.07, 0.03], scale: [1, 1.06, 1] }}
+        animate={{ opacity: [0.03, 0.07, 0.03] }}
         transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
       />
 

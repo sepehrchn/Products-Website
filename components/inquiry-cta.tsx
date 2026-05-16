@@ -41,18 +41,14 @@ export function InquiryCTA() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-12"
+          className="mt-10 sm:mt-12 w-full sm:w-auto"
         >
-          <motion.div
-            whileHover={{ y: -4 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-block w-full sm:w-auto"
-          >
+          <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}>
             <Button
               size="lg"
-              className="bg-saffron text-ink hover:bg-saffron/90 font-medium px-12 h-12 text-sm sm:text-[15px] w-full"
+              className="w-full sm:w-auto bg-saffron text-ink hover:bg-saffron/90 font-medium px-12 h-14 text-base shadow-lg shadow-saffron/20 tracking-wide"
             >
-              Request a Quote
+              Contact Sales Team
             </Button>
           </motion.div>
         </motion.div>
