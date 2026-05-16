@@ -4,6 +4,7 @@ import { Vazirmatn } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 import { LanguageProvider } from '@/lib/i18n'
+import { ClientBoot } from '@/components/client-boot'
 
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
@@ -114,6 +115,7 @@ export default function RootLayout({
       <body className="font-sans antialiased" suppressHydrationWarning>
         <LanguageProvider>
           {children}
+          <ClientBoot />
           {process.env.NODE_ENV === 'production' && <Analytics />}
         </LanguageProvider>
       </body>
