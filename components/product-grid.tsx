@@ -39,14 +39,14 @@ export function ProductGrid() {
     <section
       id="products"
       ref={ref}
-      className="bg-parchment py-20 sm:py-28 md:py-32 lg:py-40"
+      className="bg-parchment py-16 sm:py-24 md:py-32 lg:py-40"
       aria-labelledby="products-heading"
     >
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="text-center"
         >
           <p className="text-[11px] tracking-[0.2em] uppercase text-saffron font-medium mb-5">
@@ -54,7 +54,7 @@ export function ProductGrid() {
           </p>
           <h2
             id="products-heading"
-            className="font-serif text-4xl md:text-5xl font-medium text-ink"
+            className="font-serif text-4xl md:text-5xl font-medium text-ink leading-[1.1] tracking-tight"
           >
             Our core export lines
           </h2>
@@ -68,10 +68,10 @@ export function ProductGrid() {
           {products.map((product, index) => (
             <motion.article
               key={product.name}
-              initial={{ opacity: 0, y: 36 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, delay: 0.15 + index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              whileHover={{ y: -8, transition: { type: "spring", stiffness: 400, damping: 28 } }}
+              transition={{ duration: 0.8, delay: 0.15 + index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ y: -6, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } }}
               className="group bg-card rounded-lg overflow-hidden shadow-sm border border-border cursor-default"
             >
               {/* Placeholder Image */}
@@ -80,10 +80,10 @@ export function ProductGrid() {
               </div>
 
               <div className="p-5 sm:p-8">
-                <h3 className="font-serif text-2xl font-medium text-ink leading-tight">
+                <h3 className="font-serif text-2xl md:text-3xl font-medium text-ink leading-tight tracking-tight">
                   {product.name}
                 </h3>
-                <p className="mt-3 text-muted-text leading-[1.75] text-[15px]">
+                <p className="mt-3 text-muted-text leading-[1.8] text-[15px]">
                   {product.description}
                 </p>
                 <div className="mt-6 flex items-center justify-between">

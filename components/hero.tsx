@@ -11,7 +11,7 @@ export function Hero() {
       className="relative min-h-screen flex items-center justify-center bg-ink pt-20"
       aria-labelledby="hero-heading"
     >
-      <div className="mx-auto max-w-5xl px-5 sm:px-8 py-20 sm:py-28 lg:py-36 text-center">
+      <div className="mx-auto max-w-5xl px-5 sm:px-8 py-16 sm:py-24 lg:py-36 text-center">
         {/* Headline with word-by-word reveal */}
         <h1
           id="hero-heading"
@@ -20,10 +20,10 @@ export function Hero() {
           {words.map((word, index) => (
             <motion.span
               key={index}
-              initial={{ opacity: 0, y: 28, filter: "blur(4px)" }}
+              initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{
-                duration: 0.7,
+                duration: 0.8,
                 delay: index * 0.1,
                 ease: [0.16, 1, 0.3, 1],
               }}
@@ -36,10 +36,10 @@ export function Hero() {
 
         {/* Subtitle */}
         <motion.p
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-7 sm:mt-10 text-base sm:text-xl md:text-2xl text-parchment/70 max-w-xl mx-auto leading-[1.75] font-light"
+          className="mt-7 sm:mt-10 text-base sm:text-xl md:text-2xl text-parchment/80 max-w-xl mx-auto leading-[1.8] font-light tracking-wide"
         >
           Supplying international importers with Iran’s premium agricultural
           commodities — saffron, pistachios, dried fruits, and specialty goods.
@@ -48,31 +48,35 @@ export function Hero() {
 
         {/* CTA Buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.1, ease: [0.16, 1, 0.3, 1] }}
           className="mt-10 sm:mt-14 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto"
         >
-          <Button
-            size="lg"
-            className="bg-saffron text-ink hover:bg-saffron/90 font-medium px-10 h-12 text-[15px] w-full sm:w-auto"
-          >
-            Request a Quote
-          </Button>
-          <Button
-            size="lg"
-            variant="outline"
-            className="border-parchment/30 text-parchment bg-transparent hover:bg-parchment/10 font-medium px-10 h-12 text-[15px] w-full sm:w-auto"
-          >
-            View Export Catalogue
-          </Button>
+          <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }} className="w-full sm:w-auto">
+            <Button
+              size="lg"
+              className="bg-saffron text-ink hover:bg-saffron/90 font-medium px-10 h-12 text-[15px] w-full"
+            >
+              Request a Quote
+            </Button>
+          </motion.div>
+          <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }} className="w-full sm:w-auto">
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-parchment/30 text-parchment bg-transparent hover:bg-parchment/10 font-medium px-10 h-12 text-[15px] w-full"
+            >
+              View Export Catalogue
+            </Button>
+          </motion.div>
         </motion.div>
 
         {/* Decorative rule + Trust Line */}
         <motion.div
-          initial={{ opacity: 0, y: 8 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.4, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.8, delay: 1.4, ease: [0.16, 1, 0.3, 1] }}
           className="mt-12 sm:mt-20 flex flex-col items-center gap-5"
         >
           <motion.div

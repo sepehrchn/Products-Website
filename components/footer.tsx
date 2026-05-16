@@ -16,8 +16,8 @@ const footerLinks = {
 export function Footer() {
   return (
     <footer id="about" className="bg-ink text-parchment" role="contentinfo">
-      <div className="mx-auto max-w-6xl px-5 sm:px-8 py-14 sm:py-20">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-8 lg:gap-10">
+      <div className="mx-auto max-w-6xl px-5 sm:px-8 py-12 sm:py-16 lg:py-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 sm:gap-8 lg:gap-10">
           {/* Company Info */}
           <div>
             <div className="flex items-center gap-2.5">
@@ -123,8 +123,8 @@ export function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-parchment/10">
-        <div className="mx-auto max-w-6xl px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-parchment/50">
+        <div className="mx-auto max-w-6xl px-6 py-6 flex flex-col sm:flex-row items-center sm:items-start justify-between gap-4 sm:gap-0">
+          <p className="text-xs text-parchment/50 text-center sm:text-left">
             &copy; {new Date().getFullYear()} Ariana Global Trade. All rights reserved.
           </p>
           <div className="flex items-center gap-2 text-xs">

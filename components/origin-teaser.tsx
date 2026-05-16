@@ -19,15 +19,15 @@ export function OriginTeaser() {
     <section
       id="origin"
       ref={ref}
-      className="bg-card py-20 sm:py-28 md:py-32 lg:py-40 border-y border-border"
+      className="bg-card py-16 sm:py-24 md:py-32 lg:py-40 border-y border-border"
       aria-labelledby="origin-heading"
     >
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
           {/* Text Content */}
           <motion.div
-            initial={{ opacity: 0, x: -36 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
             <p className="text-[11px] tracking-[0.2em] uppercase text-saffron font-medium mb-5">
@@ -35,7 +35,7 @@ export function OriginTeaser() {
             </p>
             <h2
               id="origin-heading"
-              className="font-serif text-4xl md:text-5xl font-medium text-ink leading-[1.1]"
+              className="font-serif text-4xl md:text-5xl font-medium text-ink leading-[1.1] tracking-tight"
             >
               Traceable from farm to freight.
             </h2>
@@ -58,8 +58,8 @@ export function OriginTeaser() {
 
           {/* Map */}
           <motion.div
-            initial={{ opacity: 0, x: 36 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-col items-center"
           >

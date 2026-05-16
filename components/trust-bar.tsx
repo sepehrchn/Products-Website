@@ -18,7 +18,7 @@ export function TrustBar() {
   return (
     <section
       ref={ref}
-      className="bg-parchment py-14 sm:py-20 border-y border-border"
+      className="bg-parchment py-12 sm:py-16 lg:py-20 border-y border-border"
       aria-label="Company statistics"
     >
       <div className="mx-auto max-w-6xl px-8">
@@ -26,9 +26,9 @@ export function TrustBar() {
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 28 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, delay: index * 0.09, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.8, delay: index * 0.09, ease: [0.16, 1, 0.3, 1] }}
               className={[
                 "text-center py-7 sm:py-8 px-4 sm:px-6",
                 index % 2 !== 0 ? "border-l border-border" : "",
@@ -36,10 +36,10 @@ export function TrustBar() {
                 index > 0 && index % 2 === 0 ? "md:border-l md:border-border" : "",
               ].join(" ")}
             >
-              <div className="font-serif text-4xl md:text-5xl font-semibold text-saffron leading-none">
+              <div className="font-serif text-4xl md:text-5xl font-medium text-saffron leading-none tracking-tight">
                 {stat.value}
               </div>
-              <div className="mt-3 text-[11px] tracking-[0.14em] uppercase font-medium text-muted-text">
+              <div className="mt-3 text-[11px] tracking-[0.2em] uppercase font-medium text-muted-text">
                 {stat.label}
               </div>
             </motion.div>

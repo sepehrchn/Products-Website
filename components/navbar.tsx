@@ -36,11 +36,11 @@ export function Navbar() {
       <nav className="mx-auto max-w-7xl px-5 sm:px-8 py-4 sm:py-5 flex items-center justify-between">
         {/* Logo */}
         <a href="#" className="flex items-center gap-2.5" aria-label="Ariana Global Trade Home">
-          <span className="font-serif text-xl font-semibold tracking-tight text-ink">
+          <span className="font-serif text-xl font-medium tracking-tighter text-ink">
             Ariana
           </span>
           <span className="w-px h-4 bg-saffron/40" aria-hidden="true" />
-          <span className="font-serif text-xl text-saffron tracking-tight">Global Trade</span>
+          <span className="font-serif text-xl font-medium text-saffron tracking-tighter">Global Trade</span>
         </a>
 
         {/* Desktop Nav Links */}
@@ -49,7 +49,7 @@ export function Navbar() {
             <li key={link.href}>
               <a
                 href={link.href}
-                className="relative text-[13px] font-medium tracking-[0.07em] uppercase text-ink/80 hover:text-saffron transition-colors duration-200 group"
+                className="relative text-[13px] font-medium tracking-[0.1em] uppercase text-ink/80 hover:text-saffron transition-colors duration-200 group"
               >
                 {link.label}
                 <motion.span
