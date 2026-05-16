@@ -43,7 +43,7 @@ export function LogisticsStrip() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 sm:gap-8 lg:gap-6">
             {steps.map((step, index) => (
               <motion.div
-                key={step.number}
+                key={step.title}
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8, delay: 0.25 + index * 0.13, ease: [0.16, 1, 0.3, 1] }}
@@ -56,7 +56,7 @@ export function LogisticsStrip() {
                   transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <span className="font-serif text-xl font-semibold text-saffron">
-                    {step.number}
+                    {index + 1}
                   </span>
                 </motion.div>
 
