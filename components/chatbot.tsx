@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { MessageCircle, X, Send, Sparkles } from "lucide-react"
+import { MessageCircle, X, Send, Sparkles, Undo2, RotateCcw } from "lucide-react"
 import { useLanguage } from "@/lib/i18n"
 import { cn } from "@/lib/utils"
 import { runEngine, type ChatLink } from "@/lib/chatbot/engine"
@@ -103,6 +103,8 @@ export function Chatbot() {
   const [unread, setUnread] = useState(false)
   const [messages, setMessages] = useState<Message[]>([])
   const [isBusy, setIsBusy] = useState(false)
+  // In-chat navigation: stack of prior message snapshots (session-only, no persistence).
+  const [history, setHistory] = useState<Message[][]>([])
   const currentSection = useCurrentSection()
   const scrollRef = useRef<HTMLDivElement>(null)
   const idRef = useRef(0)
@@ -127,6 +129,8 @@ export function Chatbot() {
         closeLabel: "بستن چت",
         poweredBy: "پاسخ‌های سریع از پایگاه دانش آریانا",
         errorText: "خطا در ارتباط. لطفاً دوباره تلاش کنید.",
+        backLabel: "بازگشت به مرحله قبل",
+        askAgain: "پرسیدن دوباره",
       }
     : {
         title: "Ariana Assistant",
@@ -145,6 +149,8 @@ export function Chatbot() {
         closeLabel: "Close chat",
         poweredBy: "Instant answers from the Ariana knowledge base",
         errorText: "Connection error. Please try again.",
+        backLabel: "Go back one step",
+        askAgain: "Ask again",
       }
 
   useEffect(() => {
@@ -171,6 +177,10 @@ export function Chatbot() {
     async (text: string) => {
       const value = text.trim()
       if (!value || isBusy) return
+
+      // Push current messages onto the in-chat history stack BEFORE this new turn,
+      // so "Back" can rewind to the state right before this question was asked.
+      setHistory((h) => [...h, messages])
 
       const userMsg: Message = { id: nextId(), role: "user", text: value }
       setMessages((prev) => [...prev, userMsg])
@@ -227,6 +237,34 @@ export function Chatbot() {
     e.preventDefault()
     handleSend(input)
   }
+
+  // Rewind to the previous chat snapshot (one turn back).
+  // Pure in-chat navigation: no routing, no page reload, session-only.
+  const handleBack = useCallback(() => {
+    if (isBusy || history.length === 0) return
+    setHistory((h) => {
+      const next = h.slice(0, -1)
+      const snapshot = h[h.length - 1]
+      setMessages(snapshot)
+      return next
+    })
+    setInput("")
+  }, [isBusy, history])
+
+  // Re-ask the most recent user question: rewind one step, then resend it.
+  const handleAskAgain = useCallback(() => {
+    if (isBusy || history.length === 0) return
+    // Find the last user message in current view to resend.
+    const lastUser = [...messages].reverse().find((m) => m.role === "user")
+    if (!lastUser) return
+    const snapshot = history[history.length - 1]
+    setHistory((h) => h.slice(0, -1))
+    setMessages(snapshot)
+    // Defer to next tick so state settles before re-sending.
+    setTimeout(() => handleSend(lastUser.text), 0)
+  }, [isBusy, history, messages, handleSend])
+
+  const canGoBack = history.length > 0 && !isBusy
 
   return (
     <>
@@ -304,6 +342,21 @@ export function Chatbot() {
                 <div className="font-serif text-base leading-tight">{labels.title}</div>
                 <div className="text-[11px] tracking-wide text-parchment/60 mt-0.5">{labels.subtitle}</div>
               </div>
+              <button
+                type="button"
+                onClick={handleBack}
+                disabled={!canGoBack}
+                className={cn(
+                  "p-1.5 rounded-md transition-colors",
+                  canGoBack
+                    ? "hover:bg-parchment/10 text-parchment"
+                    : "text-parchment/30 cursor-not-allowed",
+                )}
+                aria-label={labels.backLabel}
+                title={labels.backLabel}
+              >
+                <Undo2 className={cn("w-4 h-4", isFa && "scale-x-[-1]")} />
+              </button>
               <button
                 type="button"
                 onClick={() => setOpen(false)}

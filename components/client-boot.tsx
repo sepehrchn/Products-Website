@@ -2,15 +2,12 @@
 
 import { useEffect, useState, Suspense, lazy } from "react"
 
-// Lazy-load chatbot + back button so they never block initial render / hydration.
+// Lazy-load chatbot so it never blocks initial render / hydration.
 const Chatbot = lazy(() => import("@/components/chatbot").then((m) => ({ default: m.Chatbot })))
-const BackButton = lazy(() =>
-  import("@/components/back-button").then((m) => ({ default: m.BackButton })),
-)
 
 /**
  * Client boot layer:
- * - Defers mounting of non-critical UI (chatbot, back button) until after first paint.
+ * - Defers mounting of non-critical UI (chatbot) until after first paint.
  * - Prevents race conditions with routing/hydration.
  * - Uses requestIdleCallback when available for minimal main-thread impact.
  * - Wrapped in error-safe Suspense; failures here never affect the rest of the app.
@@ -41,7 +38,6 @@ export function ClientBoot() {
 
   return (
     <Suspense fallback={null}>
-      <BackButton />
       <Chatbot />
     </Suspense>
   )
